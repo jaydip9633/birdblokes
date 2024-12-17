@@ -1,0 +1,150 @@
+{{ 'fashion-blogs-b-b.css' | asset_url | stylesheet_tag }}
+<style>
+    .tb_padding{
+      padding-top: {{ section.settings.p_top }}px;
+      padding-bottom: {{ section.settings.p_bottom }}px;
+    }
+  {% if section.settings.border %}
+      .fashion-blog{
+        border-top: {{ section.settings.border_thickness}}px solid {{ section.settings.b_color}};
+      }
+      {% endif %}
+    @media (max-width: 991px){
+      .tb_padding{
+      padding-top: {{ section.settings.p_top | times: 2 | divided_by: 3 }}px;
+      padding-bottom: {{ section.settings.p_bottom | times: 2 | divided_by: 3 }}px;
+    }
+    }
+</style>
+{% assign total_blocks = section.blocks.size %}
+<div class="container_120 wide_range">
+  <div class="tb_padding">
+    <div class="wrap_text_arrow">
+      <h2 class="h56 h24">
+        {{ section.settings.section_title }}
+      </h2>
+      {% if section.settings.is_view %}
+        <div class="btn_arrow">
+            <a href="/blogs/news" class="primary_btn">
+            {{ section.settings.view_collection }}
+              </a>
+          
+          <a href="/blogs/news" class="arrow_btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="Frame">
+              <g id="Group">
+              <path id="Vector" d="M1.44253 10.3155C1.54071 10.2995 1.6401 10.2922 1.73955 10.2935H18.6711L18.3019 10.1217C17.941 9.95092 17.6127 9.71848 17.3317 9.43487L12.5836 4.68685C11.9583 4.08991 11.8532 3.12963 12.3347 2.41157C12.8949 1.64641 13.9694 1.48027 14.7346 2.04055C14.7965 2.08584 14.8552 2.13521 14.9104 2.18834L23.4964 10.7743C24.1674 11.4445 24.1679 12.5318 23.4977 13.2028L23.4964 13.2041L14.9104 21.79C14.2389 22.4597 13.1517 22.4582 12.482 21.7867C12.4293 21.7338 12.3801 21.6776 12.3347 21.6183C11.8532 20.9003 11.9583 19.94 12.5836 19.343L17.3231 14.5864C17.575 14.3342 17.8647 14.1228 18.1817 13.9597L18.6968 13.7278H1.83405C0.956837 13.7604 0.187216 13.1476 0.022419 12.2854C-0.129391 11.3493 0.506399 10.4673 1.44253 10.3155Z" fill="#3C1212"></path>
+              </g>
+              </g>
+            </svg>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="blog_items {% if total_blocks == 3 %}blog3{% endif %}">
+      {% for block in section.blocks %}
+        <div class="blog_item {% if total_blocks == 3 and forloop.index == 1 %}big_blog{% endif %} item-{{ forloop.index }}">
+          <figure class="blog_figure">
+          <img src="{{ block.settings.selected_blog.image | img_url: 'master'}}" class="blog_img">
+          </figure>
+          <div class="blog_btn_wrap">
+            <div class="blog_info_wrap">
+              <p class="blog_category">{{ block.settings.blog_niche }}</p>
+              <h2 class="blog_title">{{ block.settings.selected_blog.title }}</h2>
+              <p class="blog_content">{{ block.settings.selected_blog.content }}</p>
+            </div>
+            <div class="secondary_btn_div">
+              <a href="{{ block.settings.selected_blog.url }}" class="secondary_btn">Read Now</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "fashion-blogs-b-be",
+  "class": "fashion-blog",
+  "settings": [
+  {
+    "type": "textarea",
+    "id": "section_title",
+    "label": "Heading"
+  },
+  {
+    "type": "checkbox",
+    "id": "is_view",
+    "label": "Enable view collection button"
+  },
+  {
+    "type": "text",
+    "id": "view_collection",
+    "label": "Button text"
+  },
+  {
+    "type": "checkbox",
+    "id": "border",
+    "label": "Border Top"
+  },
+  {
+    "type": "range",
+    "id": "border_thickness",
+    "min": 1,
+    "max": 15,
+    "default": 1,
+    "label": "Border Thickness"
+  },
+  {
+    "type": "color",
+    "id": "b_color",
+    "label": "Border Color"
+  },
+  {
+    "type": "range",
+    "id": "p_top",
+    "unit": "px",
+    "min": 0,
+    "max": 200,
+    "step": 10,
+    "default": 20,
+    "label": "Padding top",
+  },
+  {
+    "type": "range",
+    "id": "p_bottom",
+    "unit": "px",
+    "min": 0,
+    "max": 200,
+    "step": 10,
+    "default": 20,
+    "label": "Padding bottom",
+  }
+],
+  "blocks": [
+    {
+      "type": "article",
+      "name": "article",
+      "settings": [
+        {
+          "type": "article",
+          "id": "selected_blog",
+          "label": "select blog"
+        },
+        {
+          "type": "text",
+          "id": "blog_niche",
+          "label": "Category"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "fashion-blogs-b-b"
+    }
+  ]
+}
+{% endschema %}

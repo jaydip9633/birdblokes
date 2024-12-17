@@ -1,0 +1,59 @@
+<link rel="stylesheet" href="{{ 'custom_announce.css' | asset_url }}" media="print" onload="this.media='all'">
+
+<div id="custom_announcement" class="marquee">
+  <div class="marquee-content">
+    {% assign repeat_count = section.settings.repeat_range %}
+    {% for i in (1..repeat_count) %}
+      {% for block in section.blocks %}
+        <a href="/">
+        <span>{{ block.settings.bar_svg }}</span>
+        </a>
+      {% endfor %}
+    {% endfor %}
+  </div>
+  <div class="marquee-content">
+    {% assign repeat_count = section.settings.repeat_range %}
+    {% for i in (1..repeat_count) %}
+      {% for block in section.blocks %}
+        <a href="/">
+        <span>{{ block.settings.bar_svg }}</span>
+        </a>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "Birdblokes-announcement",
+  "settings": [
+    {
+          "type": "range",
+          "id": "repeat_range",
+          "min": 1,
+          "max": 15,
+          "default": 6,
+          "label": "Repeat logo"
+        }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "announcement",
+      "settings": [
+        {
+          "type": "html",
+          "id": "bar_svg",
+          "label": "SVG"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Birdblokes-announcement"
+    }
+  ]
+}
+{% endschema %}

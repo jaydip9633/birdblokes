@@ -1,0 +1,45 @@
+.header_icons_wrap {
+  display: flex;
+  gap: 16px;
+}
+.header_icons_wrap .header__icon {
+  width: 24px;
+  height: 24px;
+}
+.svg-wrapper > svg {
+  width: 24px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+.header:not(.drawer-menu).page-width{
+  padding-left: 12rem;
+  padding-right: 12rem;
+}
+.list-menu__item{
+  font-family: Roboto;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+.header__active-menu-item{
+  color: #3C1212;
+}
+.header__icon .svg-wrapper{
+   width: 24px;
+  height: 24px;
+}
+@media (max-width: 989px){
+.header__icons{
+  display: none;
+}
+  .header__heading{
+    width: 100%;
+    margin-right: -32px;
+  }
+  .header:not(.drawer-menu).page-width{
+        padding: 10px 16px;
+    flex-direction: row-reverse;
+  }
+}

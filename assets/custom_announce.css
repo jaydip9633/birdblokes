@@ -1,0 +1,42 @@
+#custom_announcement {
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+  width: 100%;
+  background: #3C1212;
+  line-height: 0;  
+  
+}
+
+.marquee-content {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee-scroll 30s linear infinite;
+  padding: 11px 0;
+  line-height: 0;  
+}
+
+.marquee-content span {
+  display: inline-block;
+  margin-right: 56px;
+  line-height: 0;
+}
+.marquee-content a{
+  line-height: 0;
+  
+}
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@media (max-width: 991px){
+.marquee-content {
+  padding: 4px 0;
+  
+}
+}

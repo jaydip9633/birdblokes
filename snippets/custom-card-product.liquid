@@ -1,0 +1,26 @@
+<div class="product_alone">
+  <div class="img_btn_wrap">
+    <div class="img_div">
+      <img src="{{ card_product.featured_image | img_url: 'master' }}" class="img_product">
+    </div>
+
+    <div class="img_hover_btn_bg">
+      <div class="img_hover_btn">
+        <span class="wishlist_svg">{{ 'wishlist.svg' | inline_asset_content }}</span>
+        <span class="3layer_svg">{{ '3layer.svg' | inline_asset_content }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="product_info">
+    <div>
+      <a href="{{ card_product.url }}" class="product_title">{{ card_product.title }}</a>
+      <span class="price-discounted">{{ card_product.price | money }}</span>
+      <span class="price-regular">{{ card_product.compare_at_price | money }}</span>
+    </div>
+    <form method="post" action="/cart/add" class="add_cart_form">
+      <input type="hidden" name="id" value="{{ card_product.variants.first.id }}">
+      <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+    </form>
+  </div>
+</div>

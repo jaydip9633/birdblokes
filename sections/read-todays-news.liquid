@@ -1,0 +1,46 @@
+{{ 'read-todays-news.css' | asset_url | stylesheet_tag }}
+<div class="read-more-news">
+  {% for block in section.blocks %}
+    <div class="news-items {% if forloop.index == 1 %}news-item1{% endif %}">
+      <figure class="news-fig">
+        <img src="{{ block.settings.selected_article | img_url: 'master' }}" class="news-image">
+      </figure>
+      <div class="news-info-div">
+        <h2 class="news-heading">{{ block.settings.selected_article.title }}</h2>
+        <p class="news-content">{{ block.settings.selected_article.content }}</p>
+        <a href="{{ block.settings.selected_article.url }}" class="read-news-btn">{{ section.settings['read-more'] }} </a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% schema %}
+{
+  "name": "read-todays-news",
+  "class": "section-read-more-news",
+  "settings": [
+    {
+      "type": "text",
+      "id": "read-more",
+      "label": "Enter Button Text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "blog",
+      "name": "blog",
+      "settings": [
+        {
+          "type": "article",
+          "id": "selected_article",
+          "label": "Select News"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "read-todays-news"
+    }
+  ]
+}
+{% endschema %}

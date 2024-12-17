@@ -1,0 +1,183 @@
+{{ 'product-gallery.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .product_gallery .tb_padding{
+    padding-top: {{ section.settings.p_top }}px;
+    padding-bottom: {{ section.settings.p_bottom }}px;
+  }
+    {% if section.settings.border %}
+    .section-product-gallery{
+      border-top: {{ section.settings.border_thickness}}px solid {{ section.settings.b_color}};
+    }
+    {% endif %}
+  @media (max-width: 991px){
+    .product_gallery .tb_padding{
+    padding-top: {{ section.settings.p_top | times: 1 | divided_by: 5 }}px;
+    padding-bottom: {{ section.settings.p_bottom | times: 4 | divided_by: 10 }}px;
+  }
+  }
+</style>
+
+<div class="container_120 product_gallery">
+  <div class="tb_padding">
+    <div class="wrap_text_arrow">
+      <h2 class="h56 h24">
+        {{ section.settings.section_title }}
+      </h2>
+      {% if section.settings.is_view %}
+        <div class="btn_arrow">
+          <a href="{{ section.settings.page_url }}" class="primary_btn">
+            {{ section.settings.view_collection }}
+          </a>
+          <a href="{{ section.settings.page_url }}" class="arrow_btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="Frame">
+              <g id="Group">
+              <path id="Vector" d="M1.44253 10.3155C1.54071 10.2995 1.6401 10.2922 1.73955 10.2935H18.6711L18.3019 10.1217C17.941 9.95092 17.6127 9.71848 17.3317 9.43487L12.5836 4.68685C11.9583 4.08991 11.8532 3.12963 12.3347 2.41157C12.8949 1.64641 13.9694 1.48027 14.7346 2.04055C14.7965 2.08584 14.8552 2.13521 14.9104 2.18834L23.4964 10.7743C24.1674 11.4445 24.1679 12.5318 23.4977 13.2028L23.4964 13.2041L14.9104 21.79C14.2389 22.4597 13.1517 22.4582 12.482 21.7867C12.4293 21.7338 12.3801 21.6776 12.3347 21.6183C11.8532 20.9003 11.9583 19.94 12.5836 19.343L17.3231 14.5864C17.575 14.3342 17.8647 14.1228 18.1817 13.9597L18.6968 13.7278H1.83405C0.956837 13.7604 0.187216 13.1476 0.022419 12.2854C-0.129391 11.3493 0.506399 10.4673 1.44253 10.3155Z" fill="#3C1212"></path>
+              </g>
+              </g>
+            </svg>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+    <div class="follow_insta">
+      <p class="check_insta">
+        {{ section.settings.insta_text }}
+        <span>{{ section.settings.insta_id }}</span>
+      </p>
+    </div>
+
+    <div class="all_product_wrap">
+      {% for block in section.blocks %}
+        {% assign selected_product = block.settings.selected_product %}
+        <div class="single_product_div masonry">
+          <a href="/products/{{ block.settings.selected_product }}" class="product_link"></a>
+          <figure class="product_figure {% if forloop.index == 4 or forloop.index == 3 %}fig2{% endif %}">
+            <img src="{{ block.settings.product_img | img_url: 'master' }}" class="product_img">
+            <img
+              src="{{ block.settings.product_img_mobile | img_url: 'master' }}"
+              class="product_img product_img_mobile">
+
+            <div class="product_info">
+              <div>
+                <p class="product_title">{{ block.settings.selected_product.title }}</p>
+                <span class="price-discounted">{{ block.settings.selected_product.price | money }}</span>
+                <span class="price-regular">{{ block.settings.selected_product.compare_at_price | money }}</span>
+              </div>
+              <form method="post" action="/cart/add" class="add_cart_form">
+                <input type="hidden" name="id" value="{{ selected_product.variants.first.id }}">
+                <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+              </form>
+            </div>
+          </figure>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "product-gallery",
+  "class": "section-product-gallery",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "section_title",
+      "label": "Heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "is_view",
+      "label": "Enable view collection button"
+    },
+    {
+      "type": "text",
+      "id": "view_collection",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "page_url",
+      "label": "Enter page url"
+    },
+    {
+      "type": "text",
+      "id": "insta_text",
+      "label": "Enter text"
+    },
+    {
+      "type": "text",
+      "id": "insta_id",
+      "label": "Enter social text"
+    },
+    {
+      "type": "checkbox",
+      "id": "border",
+      "label": "Border Top"
+    },
+    {
+      "type": "range",
+      "id": "border_thickness",
+      "min": 1,
+      "max": 15,
+      "default": 1,
+      "label": "Border Thickness"
+    },
+    {
+      "type": "color",
+      "id": "b_color",
+      "label": "Border Color"
+    },
+    {
+      "type": "range",
+      "id": "p_top",
+      "unit": "px",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 20,
+      "label": "Padding top",
+    },
+    {
+      "type": "range",
+      "id": "p_bottom",
+      "unit": "px",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 20,
+      "label": "Padding bottom",
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "product",
+      "settings": [
+        {
+        "type": "image_picker",
+        "id": "product_img",
+        "label": "Desktop Image"
+        },
+        {
+        "type": "image_picker",
+        "id": "product_img_mobile",
+        "label": "Mobile Image"
+        },
+        {
+          "type": "product",
+          "id": "selected_product",
+          "label": "Select product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "product-gallery"
+    }
+  ]
+}
+{% endschema %}

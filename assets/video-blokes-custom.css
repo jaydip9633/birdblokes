@@ -1,0 +1,14 @@
+.video-blokes .deferred-media__poster-button {
+  background: unset;
+  width: 100%;
+  height: 100%;
+}
+@media (max-width: 991px) {
+  .video-blokes .video-section {
+    margin: 0 -16px;
+  }
+  .video-blokes .deferred-media__poster-button {
+    width: 64px;
+    height: 64px;
+  }
+}

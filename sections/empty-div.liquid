@@ -1,0 +1,73 @@
+<style>
+  .empty-div{
+    padding-top: {{ section.settings.p_top }}px;
+    padding-bottom: {{ section.settings.p_bottom }}px;
+  }
+    {% if section.settings.border %}
+    .section-empty-div{
+      border-top: {{ section.settings.border_thickness}}px solid {{ section.settings.b_color}};
+    }
+    {% endif %}
+  @media (max-width: 991px){
+    .empty-div{
+    padding-top: {{ section.settings.p_top | divided_by: 2 }}px;
+    padding-bottom: {{ section.settings.p_bottom | divided_by: 2 }}px;
+  }
+  }
+</style>
+
+<div class="empty-div">
+  
+</div>
+
+{% schema %}
+  {
+    "name": "empty-div",
+    "class": "section-empty-div",
+    "settings": [
+      {
+      "type": "checkbox",
+      "id": "border",
+      "label": "Border Top"
+    },
+    {
+      "type": "range",
+      "id": "border_thickness",
+      "min": 1,
+      "max": 15,
+      "default": 1,
+      "label": "Border Thickness"
+    },
+    {
+      "type": "color",
+      "id": "b_color",
+      "label": "Border Color"
+    },
+    {
+      "type": "range",
+      "id": "p_top",
+      "unit": "px",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 20,
+      "label": "Padding top",
+    },
+    {
+      "type": "range",
+      "id": "p_bottom",
+      "unit": "px",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 20,
+      "label": "Padding bottom",
+    }
+    ],
+    "presets": [
+      {
+        "name": "empty-div"
+      }
+    ]
+  }
+{% endschema %}

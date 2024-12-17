@@ -1,0 +1,241 @@
+{{ 'best-seller-on.css' | asset_url | stylesheet_tag }}
+
+<style>
+      .best_seller .tb_padding{
+      padding-top: {{ section.settings.p_top }}px;
+      padding-bottom: {{ section.settings.p_bottom }}px;
+    }
+  {% if section.settings.border %}
+    .section-best-seller{
+      border-top: {{ section.settings.border_thickness}}px solid {{ section.settings.b_color}};
+    }
+    {% endif %}
+    @media (max-width: 991px){
+      .best_seller .tb_padding{
+      padding-top: {{ section.settings.p_top | times: 4 | divided_by: 10 }}px;
+      padding-bottom: {{ section.settings.p_bottom | times: 4 | divided_by: 10 }}px;
+    }
+</style>
+
+<div class="container_120 best_seller">
+  <div class="tb_padding">
+    <div class="wrap_text_arrow">
+      <h2 class="h56 h24">
+        {{ section.settings.section_title }}
+      </h2>
+      {% if section.settings.is_view %}
+        <div class="wrap_prev_next">
+          <div class="swiper-button-prev swiper-button-prev3 arrow_btn swiper-button-prev3-best-seller-{{ section.id }}">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="Frame">
+              <g id="Group">
+              <path id="Vector" opacity="0.6" d="M22.5575 10.3155C22.4593 10.2995 22.3599 10.2922 22.2604 10.2935H5.32893L5.69812 10.1217C6.059 9.95092 6.38732 9.71848 6.66833 9.43487L11.4164 4.68685C12.0417 4.08991 12.1468 3.12963 11.6653 2.41157C11.1051 1.64641 10.0306 1.48027 9.26537 2.04055C9.20354 2.08584 9.14481 2.13521 9.08957 2.18834L0.503632 10.7743C-0.167358 11.4445 -0.167949 12.5318 0.502291 13.2028L0.503632 13.2041L9.08957 21.79C9.7611 22.4597 10.8483 22.4582 11.518 21.7867C11.5707 21.7338 11.6199 21.6776 11.6653 21.6183C12.1468 20.9003 12.0417 19.94 11.4164 19.343L6.67692 14.5864C6.42499 14.3342 6.13532 14.1228 5.81833 13.9597L5.30317 13.7278H22.1659C23.0432 13.7604 23.8128 13.1476 23.9776 12.2854C24.1294 11.3493 23.4936 10.4673 22.5575 10.3155Z" fill="#3C1212"></path>
+              </g>
+              </g>
+            </svg>
+          </div>
+          <div class="swiper-button-next swiper-button-next3 arrow_btn swiper-button-next3-best-seller-{{ section.id }}">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="Frame">
+              <g id="Group">
+              <path id="Vector" d="M1.44253 10.3155C1.54071 10.2995 1.6401 10.2922 1.73955 10.2935H18.6711L18.3019 10.1217C17.941 9.95092 17.6127 9.71848 17.3317 9.43487L12.5836 4.68685C11.9583 4.08991 11.8532 3.12963 12.3347 2.41157C12.8949 1.64641 13.9694 1.48027 14.7346 2.04055C14.7965 2.08584 14.8552 2.13521 14.9104 2.18834L23.4964 10.7743C24.1674 11.4445 24.1679 12.5318 23.4977 13.2028L23.4964 13.2041L14.9104 21.79C14.2389 22.4597 13.1517 22.4582 12.482 21.7867C12.4293 21.7338 12.3801 21.6776 12.3347 21.6183C11.8532 20.9003 11.9583 19.94 12.5836 19.343L17.3231 14.5864C17.575 14.3342 17.8647 14.1228 18.1817 13.9597L18.6968 13.7278H1.83405C0.956837 13.7604 0.187216 13.1476 0.022419 12.2854C-0.129391 11.3493 0.506399 10.4673 1.44253 10.3155Z" fill="#3C1212"></path>
+              </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="prod_grid">
+      <div class="product-swiper-container best-seller-{{ section.id }}">
+        <ul class="swiper-wrapper product_grid">
+          {% for product in section.settings.selected_collection.products %}
+            <li class="swiper-slide product_card">
+              {% render 'custom-card-product', card_product: product %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Select all swiper containers dynamically based on the unique section ID
+  document.querySelectorAll('.product-swiper-container').forEach(function (swiperContainer) {
+    const sectionId = swiperContainer.classList[1]; // Example: 'swiper-container-123'
+
+    const swiper3 = new Swiper(`.${sectionId}`, {
+  loop: false, // Disables infinite loop
+  navigation: {
+    nextEl: `.swiper-button-next3-${sectionId}`,
+    prevEl: `.swiper-button-prev3-${sectionId}`,
+  },
+  breakpoints: {
+    // When window width is >= 320px
+    320: {
+      slidesPerView: 1.4,
+      spaceBetween: 20,
+    },
+    // When window width is >= 480px
+    480: {
+      slidesPerView: 1.5,
+      spaceBetween: 20,
+    },
+    // When window width is >= 640px
+    640: {
+      slidesPerView: 3,
+      spaceBetween: 25,
+    },
+    // When window width is >= 991px
+    991: {
+      slidesPerView: 4,
+      spaceBetween: 29,
+    },
+  },
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+  },
+});
+  });
+});
+
+  
+// const swiper3 = new Swiper('.product-swiper-container', {
+//   loop: false, // Disables infinite loop
+//   navigation: {
+//     nextEl: '.swiper-button-next3',
+//     prevEl: '.swiper-button-prev3',
+//   },
+//   breakpoints: {
+//     // When window width is >= 320px
+//     320: {
+//       slidesPerView: 1.4,
+//       spaceBetween: 20,
+//     },
+//     // When window width is >= 480px
+//     480: {
+//       slidesPerView: 1.5,
+//       spaceBetween: 20,
+//     },
+//     // When window width is >= 640px
+//     640: {
+//       slidesPerView: 3,
+//       spaceBetween: 25,
+//     },
+//     // When window width is >= 991px
+//     991: {
+//       slidesPerView: 4,
+//       spaceBetween: 29,
+//     },
+//   },
+//   pagination: {
+//     el: '.swiper-pagination',
+//     clickable: true,
+//   },
+// });
+
+
+  function equalizeHeights() {
+  const productInfos = document.querySelectorAll('.best_seller .product_info');
+  let maxHeight = 0;
+
+  // Reset heights to natural height
+  productInfos.forEach(info => info.style.height = 'auto');
+
+  // Find the tallest element
+  productInfos.forEach(info => {
+    const height = info.offsetHeight;
+    if (height > maxHeight) maxHeight = height;
+  });
+
+  // Set all `.product_info` elements to the tallest height
+  productInfos.forEach(info => info.style.height = `${maxHeight}px`);
+}
+
+// Run on page load and resize
+window.addEventListener('load', equalizeHeights);
+window.addEventListener('resize', equalizeHeights);
+</script>
+{% schema %}
+{
+  "name": "best-seller-on",
+  "class": "section-best-seller",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "section_title",
+      "label": "Heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "is_view",
+      "label": "Enable view collection button"
+    },
+    {
+      "type": "text",
+      "id": "view_collection",
+      "label": "Button text"
+    },
+    {
+      "type": "collection",
+      "id": "selected_collection",
+      "label": "Select collection",
+    },
+    {
+      "type": "range",
+      "id": "grid_show",
+      "min": 2,
+      "max": 8,
+      "default": 2,
+      "label": "Product to show"
+    },
+    {
+      "type": "checkbox",
+      "id": "border",
+      "label": "Border Top"
+    },
+    {
+      "type": "range",
+      "id": "border_thickness",
+      "min": 1,
+      "max": 15,
+      "default": 1,
+      "label": "Border Thickness"
+    },
+    {
+      "type": "color",
+      "id": "b_color",
+      "label": "Border Color"
+    },
+    {
+      "type": "range",
+      "id": "p_top",
+      "unit": "px",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 20,
+      "label": "Padding top",
+    },
+    {
+      "type": "range",
+      "id": "p_bottom",
+      "unit": "px",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 20,
+      "label": "Padding bottom",
+    }
+  ],
+  "presets": [
+    {
+      "name": "best-seller-on"
+    }
+  ]
+}
+{% endschema %}

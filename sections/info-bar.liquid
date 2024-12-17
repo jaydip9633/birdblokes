@@ -1,0 +1,161 @@
+{{ 'info-bar.css' | asset_url | stylesheet_tag }}
+
+<style>
+    .section-info-bar .tb_padding{
+      padding-top: {{ section.settings.p_top }}px;
+      padding-bottom: {{ section.settings.p_bottom }}px;
+    }
+  {% if section.settings.border %}
+      .section-info-bar{
+        border-top: {{ section.settings.border_thickness}}px solid {{ section.settings.b_color}};
+      }
+      {% endif %}
+    @media (max-width: 991px){
+      .section-info-bar .tb_padding{
+      padding-top: {{ section.settings.p_top | times: 2 | divided_by: 3 }}px;
+      padding-bottom: {{ section.settings.p_bottom | times: 2 | divided_by: 3 }}px;
+    }
+    }
+</style>
+
+<div class="container_120 info-bar">
+  <div class="tb_padding">
+    <div class="marquee-swiper">
+      <div class="items_wrap swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="policy_item swiper-slide">
+            <span class="policy_svg">{{ block.settings.policy_svg }}</span>
+            <div class="policy_text">
+              <span class="policy_span1">{{ block.settings.title1 }}</span>
+              <span class="policy_span2">{{ block.settings.title2 }}</span>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <script>
+const marqueeSwiper = new Swiper('.marquee-swiper', {
+  slidesPerView: 4, // Display 2.5 slides at a time
+  spaceBetween: 24, // Spacing between slides
+  loop: true, // Enable infinite looping
+  speed: 5000, // Duration for a full loop
+  autoplay: {
+    delay: 0, // No delay between slides
+    disableOnInteraction: false, // Continuous scroll even after user interaction
+  },
+  loopAdditionalSlides: 2, // Ensures smooth looping (set to the number of visible slides)
+  allowTouchMove: false, // Disable dragging for a smooth effect
+});
+
+
+
+</script> -->
+
+<script>
+  let swiperInitialized = false; // Track whether Swiper is initialized
+  let swiperInstance;
+
+  function initOrDestroySwiper() {
+    const screenWidth = window.innerWidth;
+
+    // Initialize Swiper for screens below 991px
+    if (screenWidth <= 576 && !swiperInitialized) {
+      swiperInitialized = true;
+      swiperInstance = new Swiper(".marquee-swiper", {
+        slidesPerView: 2.3,
+        spaceBetween: 16,
+        freeMode: true, // Enables natural movement
+        loop: false, // Disables looping
+        touchRatio: 1, // Makes it swipeable
+        simulateTouch: true, // Enables touch interaction
+      });
+    }
+    // Destroy Swiper for screens above 991px
+    else if (screenWidth > 576 && swiperInitialized) {
+      swiperInstance.destroy(true, true);
+      swiperInitialized = false;
+    }
+  }
+
+  // Initialize or destroy Swiper on page load
+  initOrDestroySwiper();
+
+  // Listen for window resize and adjust Swiper
+  window.addEventListener("resize", initOrDestroySwiper);
+</script>
+{% schema %}
+{
+  "name": "info-bar",
+  "class": "section-info-bar",
+  "settings": [
+    {
+    "type": "checkbox",
+    "id": "border",
+    "label": "Border Top"
+  },
+  {
+    "type": "range",
+    "id": "border_thickness",
+    "min": 1,
+    "max": 15,
+    "default": 1,
+    "label": "Border Thickness"
+  },
+  {
+    "type": "color",
+    "id": "b_color",
+    "label": "Border Color"
+  },
+  {
+    "type": "range",
+    "id": "p_top",
+    "unit": "px",
+    "min": 0,
+    "max": 200,
+    "step": 10,
+    "default": 20,
+    "label": "Padding top",
+  },
+  {
+    "type": "range",
+    "id": "p_bottom",
+    "unit": "px",
+    "min": 0,
+    "max": 200,
+    "step": 10,
+    "default": 20,
+    "label": "Padding bottom",
+  }
+  ],
+  "blocks": [
+    {
+      "type": "img",
+      "name": "policy",
+      "settings": [
+        {
+          "type": "html",
+          "id": "policy_svg",
+          "label": "SVG Code"
+        },
+        {
+          "type": "text",
+          "id": "title1",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "title2",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "info-bar"
+    }
+  ]
+}
+{% endschema %}
